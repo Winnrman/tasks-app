@@ -7,6 +7,7 @@ import TaskView from './components/TaskView';
 import ProjectsView from './components/ProjectsView';
 import ArchivedView from './components/ArchivedView';
 import SharedView from './components/SharedView';
+import TimerView from './components/TimerView';
 
 function App() {
 
@@ -40,6 +41,14 @@ function App() {
     }
   ]
 
+  const example_timers = [
+    {
+    title: 'Timer 1',
+    duration: '00:00:00',
+    active: false
+  }
+]
+
   const [currentTab, setCurrentTab] = useState('tasks');
 
   const handleSetCurrentTab = (tab) => {
@@ -53,6 +62,7 @@ function App() {
       {currentTab === 'projects' && <ProjectsView projects={[]} />}
       {currentTab === 'archived' && <ArchivedView collection={[]} />}
       {currentTab === 'shared' && <SharedView shared={[]} />} 
+      {currentTab === 'timer' && <TimerView timers={example_timers} />} 
       </div>
   );
 }
