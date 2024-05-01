@@ -1,6 +1,6 @@
 const ArchivedView = ({ collection }) => {
     return (
-        <div className="sm:w-1/2 w-full h-screen bg-slate-100 flex items-center justify-center">
+        <div className="w-full h-screen bg-slate-100 flex items-center justify-center">
             {collection.length > 0 && (
                 <div>
                     {collection.map((task) => (

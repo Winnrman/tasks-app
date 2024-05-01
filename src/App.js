@@ -11,36 +11,6 @@ import TimerView from './components/TimerView';
 
 function App() {
 
-  const example_tasks = [
-    {
-      title: 'Task 1',
-      description: 'This is a task',
-      due_date: '2021-07-01',
-      priority: 'High',
-      completed: false,
-      project: 'Project 1',
-      shared: false
-    },
-    {
-      title: 'Task 2',
-      description: 'This is another task',
-      due_date: '2021-07-02',
-      priority: 'Medium',
-      completed: false,
-      project: 'Project 2',
-      shared: false
-    },
-    {
-      title: 'Task 3',
-      description: 'This is a task',
-      due_date: '2021-07-03',
-      priority: 'Low',
-      completed: false,
-      project: 'Project 3',
-      shared: false
-    }
-  ]
-
   const example_timers = [
     {
     title: 'Timer 1',
@@ -58,7 +28,7 @@ function App() {
   return (
     <div className="App flex sm:flex-row flex-col h-screen">
       <NavBar active = {currentTab} handleSetCurrentTab = {handleSetCurrentTab}/>
-      {currentTab === 'tasks' && <TaskView tasks={example_tasks} />}
+      {currentTab === 'tasks' && <TaskView tasks={[]} />}
       {currentTab === 'projects' && <ProjectsView projects={[]} />}
       {currentTab === 'archived' && <ArchivedView collection={[]} />}
       {currentTab === 'shared' && <SharedView shared={[]} />} 

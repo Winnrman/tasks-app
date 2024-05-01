@@ -2,19 +2,50 @@ const TimerView = ({ timers }) => {
     return (
         <div className="w-full bg-slate-100 h-screen flex flex-col">
             {timers.length > 0 ? (
-                <div className = "h-full">
+                <div className="h-full">
                     <div className="flex h-3/4 items-center justify-center gap-2 text-slate-500">
-                    <div className =  "text-md items-center flex flex-col gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <div className="text-md items-center flex flex-col gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
 
 
-                            <p className = "font-semibold">Timers</p>
-                        <p className="text-xs text-center">This section can help you keep track of your time. Create pomodoro timers, countdowns, and more!</p>
-                        
-                        <button className="bg-purple-600 text-white text-sm px-4 py-2 my-3 rounded-full">Add Timer</button>
-                    </div>
+                            <p className="font-semibold text-lg">Timers</p>
+                            <p className="text-xs text-center px-8">This section can help you keep track of your time. Create pomodoro timers, countdowns, and more!</p>
+
+                            <button className="bg-purple-600 hover:bg-purple-500 text-white text-sm px-4 py-2 my-3 rounded-full">Add Timer</button>
+                            <p className="text-xs">or select one of the presets below</p>
+
+                            <div className="flex sm:flex-row flex-wrap flex-col gap-2 w-full p-3">
+
+                                <div className = "flex flex-row sm:w-fit w-full sm:flex-wrap gap-2">
+                                    <div className="bg-white p-2 rounded-md ring-1 ring-slate-300 hover:shadow-md hover:cursor-pointer sm:w-48 w-1/2">
+                                        <p className="text-sm font-semibold">Pomodoro</p>
+                                        <p className="text-xs text-gray-500">perfect for productivity</p>
+                                        <p className="text-xs text-gray-500 pt-2">25 minutes</p>
+                                </div>
+                                    <div className="bg-white p-2 rounded-md ring-1 ring-slate-300 hover:shadow-md hover:cursor-pointer sm:w-48 w-1/2">
+                                        <p className="text-sm font-semibold">Break</p>
+                                        <p className="text-xs text-gray-500">time to relax</p>
+                                        <p className="text-xs text-gray-500 pt-2">5 minutes</p>
+                                </div>
+                                </div>
+
+                                <div className = "flex flex-row sm:w-fit w-full sm:flex-wrap gap-2">
+                                    <div className="bg-white p-2 rounded-md ring-1 ring-slate-300 hover:shadow-md hover:cursor-pointer sm:w-48 w-full">
+                                        <p className="text-sm font-semibold">Cooking</p>
+                                        <p className="text-xs text-gray-500">time to cook</p>
+                                        <p className="text-xs text-gray-500 pt-2">1 hour</p>
+                                </div>
+                                </div>
+                                    <div className="bg-white p-2 rounded-md ring-1 ring-slate-300 hover:shadow-md hover:cursor-pointer sm:w-48 w-full">
+                                        <p className="text-sm font-semibold">Meditation</p>
+                                        <p className="text-xs text-gray-500">Relax and take a break</p>
+                                        <p className="text-xs text-gray-500 pt-2">10 minutes</p>
+                                    </div>
+                            </div>
+
+                        </div>
                     </div>
 
                     <div className="sm:w-full w-full h-1/4 bg-slate-100 sm:flex-col gap-4 p-4">
@@ -34,7 +65,7 @@ const TimerView = ({ timers }) => {
                             </div>
                         ))}
                     </div>
-                    
+
                 </div>
             )
                 : (

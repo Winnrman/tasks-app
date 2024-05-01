@@ -1,6 +1,6 @@
 const SharedView = ({ shared }) => {
     return (
-        <div className="sm:w-1/2 w-full h-screen bg-slate-100 flex items-center justify-center">
+        <div className="w-full h-screen bg-slate-100 flex items-center justify-center">
             {shared.length > 0 && (
                 <div>
                     {shared.map((task) => (

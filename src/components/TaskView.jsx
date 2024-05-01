@@ -44,7 +44,7 @@ const TaskView = ({ tasks }) => {
     }
 
     return (
-        <div className="sm:w-1/2 h-screen bg-slate-100 flex flex-col">
+        <div className="w-full h-screen bg-slate-100 flex flex-col">
 
             {creatingNewTask && (
                 <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
