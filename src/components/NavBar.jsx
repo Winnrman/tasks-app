@@ -6,7 +6,7 @@ const NavBar = (props) => {
 
                 {/* search bar */}
                 <div className = "flex sm:flex-col flex-row sm:w-fit w-full gap-4 sm:h-full">
-                <button className={`sm:w-12 sm:h-12 w-full text-xs text-black items-center justify-center flex flex-col gap-1 hover:bg-slate-200 py-1 rounded-md ${props.active === 'search' ? 'text-black font-semibold bg-slate-200' : ''}`} onClick={() => props.handleSetCurrentTab('search')}>
+                {/* <button className={`sm:w-12 sm:h-12 w-full text-xs text-black items-center justify-center flex flex-col gap-1 hover:bg-slate-200 py-1 rounded-md ${props.active === 'search' ? 'text-black font-semibold bg-slate-200' : ''}`} onClick={() => props.handleSetCurrentTab('search')}>
                     {props.active === 'search' ?
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
                             <path fillRule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clipRule="evenodd" />
@@ -17,7 +17,7 @@ const NavBar = (props) => {
                         </svg>
                     }
 
-                </button>
+                </button> */}
 
                 <button className={`sm:w-12 sm:h-12 w-full text-xs text-black items-center justify-center flex flex-col gap-1 hover:bg-slate-200 py-1 rounded-md ${props.active === 'tasks' ? 'text-black font-semibold' : ''}`} onClick={() => props.handleSetCurrentTab('tasks')}>
                     {props.active === 'tasks' ?

@@ -6,6 +6,9 @@
 ## Description
 This is a simple task management app that allows users to create, read, update, and delete tasks. The app is built using React, and is fully responsive.
 
+## Patch Notes
+- Added terminal and settings to the navbar (e116d19)
+
 ## Features
 - Create, read and delete tasks
 - Create, read and delete projects
