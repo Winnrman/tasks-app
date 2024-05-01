@@ -1,7 +1,7 @@
 const NavBar = (props) => {
     return (
         <div className="flex sm:flex-col flex-row sm:h-screen h-fit bg-white border-r border-slate-300 sm:w-auto sm:min-w-16 sm:items-center w-full p-1 sm:order-first order-last">
-            <div className="flex sm:space-between sm:flex-col flex-row sm:w-fit w-full gap-4 sm:h-full">
+            <div className="flex sm:space-between sm:flex-col flex-row sm:w-fit w-full sm:h-full">
                 <div className = "flex sm:flex-col flex-row sm:w-fit w-full gap-4 sm:h-full">
 
                 {/* search bar */}
@@ -19,7 +19,7 @@ const NavBar = (props) => {
 
                 </button> */}
 
-                <button className={`sm:w-12 sm:h-12 w-full text-xs text-black items-center justify-center flex flex-col gap-1 hover:bg-slate-200 py-1 rounded-md ${props.active === 'tasks' ? 'text-black font-semibold' : ''}`} onClick={() => props.handleSetCurrentTab('tasks')}>
+                <button className={`sm:w-12 sm:h-12 w-full text-xs items-center justify-center flex flex-col gap-1 hover:bg-slate-200 py-1 rounded-md ${props.active === 'tasks' ? 'text-black font-semibold' : ''}`} onClick={() => props.handleSetCurrentTab('tasks')}>
                     {props.active === 'tasks' ?
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-black">
                             <path d="M5.566 4.657A4.505 4.505 0 0 1 6.75 4.5h10.5c.41 0 .806.055 1.183.157A3 3 0 0 0 15.75 3h-7.5a3 3 0 0 0-2.684 1.657ZM2.25 12a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3v-6ZM5.25 7.5c-.41 0-.806.055-1.184.157A3 3 0 0 1 6.75 6h10.5a3 3 0 0 1 2.683 1.657A4.505 4.505 0 0 0 18.75 7.5H5.25Z" />
@@ -32,7 +32,7 @@ const NavBar = (props) => {
 
                     {props.active === 'tasks' ? 'Tasks' : null}
                 </button>
-                <button className={`sm:w-12 sm:h-12 w-full text-xs text-black items-center justify-center flex flex-col gap-1 hover:bg-slate-200 py-1 rounded-md ${props.active === 'projects' ? 'text-black font-semibold' : ''}`} onClick={() => props.handleSetCurrentTab('projects')}>
+                <button className={`sm:w-12 sm:h-12 w-full text-xs items-center justify-center flex flex-col gap-1 hover:bg-slate-200 py-1 rounded-md ${props.active === 'projects' ? 'text-black font-semibold' : ''}`} onClick={() => props.handleSetCurrentTab('projects')}>
                     {props.active === 'projects' ? <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-black">
                         <path fillRule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0 1 18 9.375v9.375a3 3 0 0 0 3-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 0 0-.673-.05A3 3 0 0 0 15 1.5h-1.5a3 3 0 0 0-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6ZM13.5 3A1.5 1.5 0 0 0 12 4.5h4.5A1.5 1.5 0 0 0 15 3h-1.5Z" clipRule="evenodd" />
                         <path fillRule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 0 1 3 20.625V9.375Zm9.586 4.594a.75.75 0 0 0-1.172-.938l-2.476 3.096-.908-.907a.75.75 0 0 0-1.06 1.06l1.5 1.5a.75.75 0 0 0 1.116-.062l3-3.75Z" clipRule="evenodd" />
@@ -44,7 +44,7 @@ const NavBar = (props) => {
                     }
                     {props.active === 'projects' ? 'Projects' : null}
                 </button>
-                <button className={`sm:w-12 sm:h-12 w-full text-xs text-black items-center justify-center flex flex-col gap-1 hover:bg-slate-200 py-1 rounded-md ${props.active === 'archived' ? 'text-black font-semibold' : ''}`} onClick={() => props.handleSetCurrentTab('archived')}>
+                <button className={`sm:w-12 sm:h-12 w-full text-xs items-center justify-center flex flex-col gap-1 hover:bg-slate-200 py-1 rounded-md ${props.active === 'archived' ? 'text-black font-semibold' : ''}`} onClick={() => props.handleSetCurrentTab('archived')}>
                     {props.active === 'archived' ?
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-black">
                             <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />
@@ -90,15 +90,13 @@ const NavBar = (props) => {
                 </button>
 
                 
-                <button className={`sm:w-12 sm:h-12 w-full text-xs text-black items-center justify-center flex flex-col gap-1 hover:bg-slate-200 py-1 rounded-md ${props.active === 'kanban' ? 'text-black font-semibold' : ''}`} onClick={() => props.handleSetCurrentTab('kanban')}>
+                <button className={`sm:w-12 sm:h-12 w-full text-xs items-center justify-center flex flex-col gap-1 hover:bg-slate-200 py-1 rounded-md ${props.active === 'kanban' ? 'text-black font-semibold' : ''}`} onClick={() => props.handleSetCurrentTab('kanban')}>
                     {props.active === 'kanban' ?
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 ">
                         <path d="M5.625 3.75a2.625 2.625 0 1 0 0 5.25h12.75a2.625 2.625 0 0 0 0-5.25H5.625ZM3.75 11.25a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5H3.75ZM3 15.75a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75ZM3.75 18.75a.75.75 0 0 0 0 1.5h16.5a.75.75 0 0 0 0-1.5H3.75Z" />
                       </svg>
-                      
-                      
                         :
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-slate-500">
   <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
 </svg>
 
@@ -110,7 +108,7 @@ const NavBar = (props) => {
                 </div>
                 <div>
                 <></>
-                <div className = "flex sm:justify-between sm:flex-col flex-row sm:w-fit gap-4 sm:h-full">
+                <div className = "flex sm:justify-between sm:flex-col flex-row sm:w-fit gap-4 sm:h-full w-full">
                 <button className={`sm:w-12 sm:h-12 w-full text-xs text-black items-center justify-center flex flex-col gap-1 hover:bg-slate-200 py-1 rounded-md ${props.active === 'terminal' ? 'text-black font-semibold' : ''}`} onClick={() => props.handleSetCurrentTab('terminal')}>
                     {props.active === 'terminal' ?
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-black">

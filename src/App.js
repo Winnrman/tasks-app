@@ -10,6 +10,7 @@ import SharedView from './components/SharedView';
 import TimerView from './components/TimerView';
 import TerminalView from './components/TerminalView';
 import SettingsView from './components/SettingsView';
+import KanbanView from './components/KanbanView';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
       {currentTab === 'timer' && <TimerView timers={example_timers} />} 
       {currentTab == "terminal" && <TerminalView />}
       {currentTab == "settings" && <SettingsView />}
+      {currentTab == "kanban" && <KanbanView boards={[]} />}
       </div>
   );
 }
