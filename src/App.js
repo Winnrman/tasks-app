@@ -8,6 +8,7 @@ import ProjectsView from './components/ProjectsView';
 import ArchivedView from './components/ArchivedView';
 import SharedView from './components/SharedView';
 import TimerView from './components/TimerView';
+import TerminalView from './components/TerminalView';
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
       {currentTab === 'archived' && <ArchivedView collection={[]} />}
       {currentTab === 'shared' && <SharedView shared={[]} />} 
       {currentTab === 'timer' && <TimerView timers={example_timers} />} 
+      {currentTab == "terminal" && <TerminalView />}
       </div>
   );
 }
