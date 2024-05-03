@@ -14,6 +14,17 @@ import KanbanView from './components/KanbanView';
 
 function App() {
 
+  const example_tasks = [
+    {
+      title: 'Task 1',
+      description: 'Complete task 1',
+      due: '2021-12-31',
+      priority: 'High',
+      shared: false,
+      completed: false
+    }
+  ]
+
   const example_timers = [
     {
     title: 'Timer 1',
@@ -31,7 +42,7 @@ function App() {
   return (
     <div className="App flex sm:flex-row flex-col h-screen">
       <NavBar active = {currentTab} handleSetCurrentTab = {handleSetCurrentTab}/>
-      {currentTab === 'tasks' && <TaskView tasks={[]} />}
+      {currentTab === 'tasks' && <TaskView tasks={example_tasks} />}
       {currentTab === 'projects' && <ProjectsView projects={[]} />}
       {currentTab === 'archived' && <ArchivedView collection={[]} />}
       {currentTab === 'shared' && <SharedView shared={[]} />} 
