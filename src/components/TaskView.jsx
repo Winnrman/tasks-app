@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
+import { format, parse } from 'date-fns';
+
 
 const TaskView = ({ tasks }) => {
 
     let subtask_number = 2;
 
     const [creatingNewTask, setCreatingNewTask] = useState(false);
+
+    const [taskDate, setTaskDate] = useState('');
+
+    const [taskEvent, setTaskEvent] = useState('');
 
     const handleNewTask = () => {
         setCreatingNewTask(!creatingNewTask);
@@ -55,12 +61,84 @@ const TaskView = ({ tasks }) => {
         setSelectedTask(task);
     }
 
+    const handleTaskInput = (e) => {
+        if (e.target.value === '') {
+          setTaskDate('');
+          return;
+        }
+      
+        // console.log(e.target.value);
+      
+        let dateTimeString = e.target.value;
+      
+        // Regular expression to match dates in the format "Month Day"
+        const dateRegex = /(?:^|\s)(\w+\s\d{1,2})(?=\s|$)/;
+        const dateMatch = dateTimeString.match(dateRegex);
+      
+        let dateString = '';
+        if (dateMatch) {
+          // Extract the matched date string
+          dateString = dateMatch[1];
+        }
+      
+        // Attempt to parse the date string into a Date object
+        let date = parse(dateString, 'yyyy-MM-dd', new Date());
+      
+        // If parsing fails, try a different format
+        if (isNaN(date.getTime())) {
+          date = parse(dateString, 'MMMM d, yyyy', new Date());
+        }
+      
+        // If parsing still fails, try a format without the year
+        if (isNaN(date.getTime())) {
+          date = parse(dateString, 'MMMM d', new Date());
+          // Check if the date is valid and set the year to the current year
+          if (!isNaN(date.getTime())) {
+            date.setFullYear(new Date().getFullYear());
+          }
+        }
+      
+        // Parse the time part
+        const timeRegex = /(\d{1,2}:\d{2}\s?[AP]M?)$/i;
+        const timeMatch = dateTimeString.match(timeRegex);
+      
+        let timeString = '';
+        if (timeMatch) {
+          // Extract the matched time string
+          timeString = timeMatch[1];
+          // Normalize the time string (e.g., convert "1pm" to "1:00 PM")
+          timeString = timeString.replace(/(\d{1,2})([AP]M)/i, '$1:00 $2');
+        }
+      
+        // If a time string was found, set the time part of the date
+        if (timeString) {
+          const time = parse(timeString, 'h:mm a', new Date());
+          date.setHours(time.getHours());
+          date.setMinutes(time.getMinutes());
+        }
+      
+        // If parsing still fails, return the original string
+        if (isNaN(date.getTime())) {
+          return dateTimeString;
+        }
+      
+        // Format the date object into a desired format
+        const formattedDate = format(date, 'MMMM d, yyyy');
+        const formattedTime = format(date, 'h:mm a');
+        const taskDateTime = `${formattedDate} ${formattedTime}`;
+        setTaskDate(taskDateTime);
+
+        //set the task event to the input value without the date
+        setTaskEvent(dateTimeString.replace(dateString, ''));
+      };
+
+
     return (
         <div className="w-full bg-slate-100 flex flex-col h-full">
 
             {creatingNewTask && (
                 <div className="absolute z-0 top-0 left-0 w-full h-full flex items-center bg-slate-900/30 justify-center">
-                    <div className="bg-white ring-1 ring-slate-300 rounded-md shadow-md sm:w-1/2 w-full sm:h-fit h-auto mt-8 mb-24 overflow-scroll">
+                    {/* <div className="bg-white ring-1 ring-slate-300 rounded-md shadow-md sm:w-1/2 w-full sm:h-fit h-auto mt-8 mb-24 overflow-scroll">
                         <div className="flex flex-row justify-between items-center px-4 py-2">
                             <h2 className="text-md font-semibold">Create a new task</h2>
                             <button onClick={handleCloseNewTask} className="top-0 right-0 rounded-sm hover:bg-slate-200 p-1">
@@ -79,16 +157,7 @@ const TaskView = ({ tasks }) => {
                                 <label className="text-sm text-gray-500">Task description
                                     <textarea className="w-full p-2 border resize-y border-b-slate-300 rounded-md" placeholder="Write something witty.." />
                                 </label>
-                                {/* <label className="text-sm text-gray-500 flex flex-col">Subtasks
-                                    <div className="flex flex-col gap-1" id="subtask_container">
-                                        <input className="w-full p-2 border border-b-slate-300 rounded-md" type="text" placeholder="Subtask 1" />
-                                        <input className="w-full p-2 border border-b-slate-300 rounded-md" type="text" placeholder="Subtask 2" />
-                                    </div>
-                                    {subtask_number < 4 ? (
-                                        <button onClick={handleAddSubtask} className="bg-slate-200 hover:bg-slate-300 text-slate-500 p-2 rounded-md w-full mt-2">Add subtask</button>
-                                    ) :
-                                        <p className="text-xs text-red-500">Max 4 subtasks</p>}
-                                </label> */}
+                                
                                 <label className="text-sm text-gray-500">Notes
                                     <textarea className="w-full p-2 border resize-none border-b-slate-300 rounded-md" placeholder="Additional notes" />
                                 </label>
@@ -122,6 +191,21 @@ const TaskView = ({ tasks }) => {
                             <div></div>
                             <button onClick={handleAddTask} className="bg-purple-600 hover:bg-slate-600 text-white p-2 rounded-md sm:w-auto w-full text-sm">Create Task</button>
                         </div>
+                    </div> */}
+
+                    <div className = "bg-white p-2 ring-1 gap-2 flex flex-col ring-slate-300 rounded-lg shadow-md sm:w-1/2 w-full sm:h-fit h-auto mt-8 mb-24 overflow-scroll">
+                        <input onChange = {handleTaskInput} type="text" placeholder="Type task here" className="w-full p-2 border border-b-slate-300 rounded-md" />
+                       <div className = "flex flex-row gap-2">
+                       <div className = "flex flex-col w-fit bg-white rounded-md ring-1 ring-slate-300 p-2">
+                            <h2 className = "text-xs font-semibold">Date</h2>
+                            <p className = "text-xs text-gray-500">{taskDate}</p>
+                        </div>
+                        <div className = "flex flex-col w-fit bg-white rounded-md ring-1 ring-slate-300 p-2">
+                            <h2 className = "text-xs font-semibold">Event</h2>
+                            <p className = "text-xs text-gray-500">{taskEvent}</p>
+                        </div>
+                        </div>
+                        <button onClick = {handleAddTask} className = "bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-md w-full text-sm">Add Task</button>
                     </div>
                 </div>
             )}
