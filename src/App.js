@@ -16,10 +16,20 @@ function App() {
 
   const example_tasks = [
     {
+      id: '000001',
       title: 'Task 1',
       description: 'Complete task 1',
-      due: '2021-12-31',
+      due: 'May 3, 2024',
       priority: 'High',
+      shared: false,
+      completed: false
+    },
+    {
+      id: '000002',
+      title: 'Create a new task',
+      description: 'Complete task 1',
+      due: 'May 7, 2024',
+      priority: 'Low',
       shared: false,
       completed: false
     }
