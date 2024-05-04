@@ -1,8 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { format, parse } from 'date-fns';
+import { collection, addDoc, getFirestore, where, getDocs, query, updateDoc, deleteDoc, DocumentReference } from "firebase/firestore"; // Import batch at the top
+import { db } from '../Firebase';
+import { app } from '../Firebase'
 
+const TaskView = () => {
 
-const TaskView = ({ tasks }) => {
+    const [tasks, setTasks] = useState([]);
+
+    //tasks are going to be fetched from the backend which is firebase firestore
+    const db = getFirestore();
+
+    async function getTasks() {
+        const tasksCol = collection(db, 'tasks');
+        const tasksSnapshot = await getDocs(tasksCol);
+        const tasksList = tasksSnapshot.docs.map(doc => doc.data());
+        setTasks(tasksList);
+    }
+
+    useEffect(() => {
+        getTasks();
+    }, []);
 
     let subtask_number = 2;
 
@@ -264,7 +282,7 @@ const TaskView = ({ tasks }) => {
                                         let dueDate = new Date(task.due); // Parse due date
                                         if (formatDate(dueDate) === day.toDateString()) {
                                             return (
-                                                <div onClick = {handleTaskClick} id = {`task${task.id}`} key={task.id} className="flex flex-row items-center gap-2 p-2 rounded-md bg-purple-500 hover:bg-purple-400 hover:cursor-pointer active:bg-purple-600 text-white">
+                                                <div onClick = {handleTaskClick} id = {`task${task.id}`} key={task.id} className={`flex flex-row items-center gap-2 p-2 rounded-md ${selectedTask == task ? 'bg-purple-800': ''} bg-purple-500 hover:bg-purple-400 hover:cursor-pointer active:bg-purple-600 text-white`}>
                                                     <h2 className="text-xs font-semibold">{task.title}</h2>
                                                     <p className="text-xs">{task.priority}</p>
                                                 </div>
