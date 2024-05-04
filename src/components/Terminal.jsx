@@ -8,16 +8,25 @@ const Terminal = (props) => {
 
 
     const [tasks, setTasks] = useState([]); //initialize tasks state
+    const [projects, setProjects] = useState([]); //initialize projects state
+
     const inputRef = useRef(null);
 
     useEffect(() => {
         getTasks();
+        getProjects();
     }, []);
 
     async function getTasks() {
         const querySnapshot = await getDocs(collection(db, "tasks"));
         const tasksData = querySnapshot.docs.map(doc => doc.data());
         setTasks(tasksData);
+    }
+
+    async function getProjects() {
+        const querySnapshot = await getDocs(collection(db, "projects"));
+        const projectsData = querySnapshot.docs.map(doc => doc.data());
+        setProjects(projectsData);
     }
 
 
@@ -29,7 +38,8 @@ const Terminal = (props) => {
         "list_tasks": "List all tasks",
         "date": "Display current date and time",
         "exit": "Close the terminal",
-        "addtask": "Add a new task"
+        "addtask": "Add a new task",
+        "list_projects": "List all projects",
     }
 
     async function handleCommand(e) {
@@ -63,6 +73,16 @@ const Terminal = (props) => {
                 output.innerHTML += `<p class = 'text-xs text-slate-500'>${task.id} ${task.title} | ${task.description} | ${task.due} | Priority: ${task.priority} | Shared: ${task.shared} | Completed: ${task.completed}</p>`;
             });
         }
+
+        else if(command === "list_projects"){
+            output.innerHTML += "<p class = 'text-xs text-slate-500'>[list_projects] Projects:</p>";
+            output.innerHTML += "<p class = 'text-xs text-slate-500'>--------------------</p>";
+            
+            projects.map((project) => {
+                output.innerHTML += `<p class = 'text-xs text-slate-500'>${project.id} ${project.title} ${project.description}</p>`;
+            });
+        }
+
         //the correct format of the addtask command is addtask -t [title] -d [description] -D [due] -p [priority] -s [shared] -c [completed]
         else if (command.includes("addtask")) {
             const parts = command.match(/(?:[^\s"]+|"[^"]*")+/g);

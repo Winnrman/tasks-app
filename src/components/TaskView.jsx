@@ -320,7 +320,7 @@ const TaskView = () => {
                             // console.log(day.toDateString());
                             return (
                                 <div key={i} className={`flex flex-col gap-1 border border-b-slate-300 p-2 rounded-md ${day.toDateString() === new Date().toDateString() ? 'bg-purple-100' : 'bg-white'}`}>
-                                    <div className = "flex flex-row items-center gap-2">
+                                    <div className = "flex flex-row items-center gap-1">
                                     <h2 className="text-sm font-semibold">{day.toDateString().split(' ')[0]}</h2>
                                     <p className="text-xs text-gray-500">{day.toDateString().split(' ')[1]} {day.toDateString().split(' ')[2]}</p>
                                 </div>
