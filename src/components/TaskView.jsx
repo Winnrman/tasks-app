@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { format, parse } from 'date-fns';
-import { collection, addDoc, getFirestore, where, getDocs, query, updateDoc, deleteDoc, DocumentReference } from "firebase/firestore"; // Import batch at the top
+import { format, parse, set } from 'date-fns';
+import { collection, addDoc, getFirestore, where, getDocs,doc, query, updateDoc, deleteDoc, DocumentReference } from "firebase/firestore"; // Import batch at the top
 import { db } from '../Firebase';
 import { app } from '../Firebase'
 
@@ -43,21 +43,31 @@ const TaskView = () => {
 
 
     const handleAddTask = () => {
-        const taskTitle = document.querySelector('input[placeholder="Walk the dog.."]').value;
-        const taskDescription = document.querySelector('textarea[placeholder="Write something witty.."]').value;
-        const subtasks = document.querySelectorAll('input[placeholder^="Subtask"]');
-        const dueDate = document.querySelector('input[type="date"]').value;
-        const priority = document.querySelector('select').value;
-        const status = document.querySelectorAll('select')[1].value;
-        const attachments = document.querySelector('input[type="file"]').value;
-        const notes = document.querySelector('textarea[placeholder="Additional notes"]').value;
+        let taskTitle = document.getElementById('title_value').innerText;
+        let taskDescription = document.getElementById('description_input').value == '' ? 'No description' : document.getElementById('description_input').value;
+        let dueDate = taskDate;
+        let priority = document.getElementById('priority_select').value;
+        let shared = document.getElementById('shared_select').value === 'Yes' ? true : false;
 
-        console.log(taskTitle, taskDescription, dueDate, priority, status, attachments, notes);
-        subtasks.forEach(subtask => {
-            console.log(subtask.value);
+        console.log(taskTitle, taskDescription, dueDate, priority, shared);
+        
+        addDoc(collection(db, 'tasks'), {
+            title: taskTitle,
+            description: taskDescription,
+            due: dueDate,
+            priority: priority,
+            shared: shared,
+            //generate a unique 16-digit id for the task in the format num-letter-letter-num-num-num-letter
+            id: Math.random().toString(36).substr(2, 16)
+        }).then(() => {
+            console.log('Task added');
+            getTasks();
+            setCreatingNewTask(false);
+        }
+        ).catch((error) => {
+            console.error('Error adding document: ', error);
         });
 
-        handleCloseNewTask();
     }
 
     const [selectedTask, setSelectedTask] = useState({});
@@ -142,13 +152,23 @@ const TaskView = () => {
       
         // Format the date object into a desired format
         const formattedDate = format(date, 'MMMM d, yyyy');
-        const formattedTime = format(date, 'h:mm a');
-        const taskDateTime = `${formattedDate} ${formattedTime}`;
-        setTaskDate(taskDateTime);
+        setTaskDate(formattedDate);
 
         //set the task event to the input value without the date
         setTaskEvent(dateTimeString.replace(dateString, ''));
       };
+
+    const handleDeleteTask = () => {
+        console.log(selectedTask.id);
+        //find the doc with the id of the selected task and delete it
+        deleteDoc(doc(db, 'tasks', selectedTask.id)).then(() => {
+            console.log('Task deleted');
+            getTasks();
+            setSelectedTask({});
+        }).catch((error) => {
+            console.error('Error deleting document: ', error);
+        });
+    }
 
 
     return (
@@ -211,16 +231,43 @@ const TaskView = () => {
                         </div>
                     </div> */}
 
-                    <div className = "bg-white p-2 ring-1 gap-2 flex flex-col ring-slate-300 rounded-lg shadow-md sm:w-1/2 w-full sm:h-fit h-auto mt-8 mb-24 overflow-scroll">
-                        <input onChange = {handleTaskInput} type="text" placeholder="Type task here" className="w-full p-2 border border-b-slate-300 rounded-md" />
-                       <div className = "flex flex-row gap-2">
-                       <div className = "flex flex-col w-fit bg-white rounded-md ring-1 ring-slate-300 p-2">
-                            <h2 className = "text-xs font-semibold">Date</h2>
-                            <p className = "text-xs text-gray-500">{taskDate}</p>
+                    <div className = "bg-white p-2 ring-1 gap-2 flex flex-col ring-slate-300 rounded-lg shadow-md sm:w-1/2 w-full m-8 sm:h-fit h-auto mt-8 mb-24 overflow-scroll">
+                        <div className = "flex flex-row justify-between items-center">
+                        <h2 className = "text-md font-semibold">Create a new task</h2>
+                        <button onClick = {handleCloseNewTask} className = "rounded-sm hover:bg-slate-200 p-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                         </div>
-                        <div className = "flex flex-col w-fit bg-white rounded-md ring-1 ring-slate-300 p-2">
+                        <input onChange = {handleTaskInput} type="text" placeholder="Type task here" className="w-full p-2 border border-b-slate-300 rounded-md" />
+                       <div className = "flex sm:md:flex-row flex-col gap-2 w-full">
+                       <div className = "flex flex-col sm:w-fit w-full bg-white rounded-md ring-1 ring-slate-300 p-2">
+                            <h2 className = "text-xs font-semibold">Date</h2>
+                            <p id = "date_value" className = "text-xs text-gray-500">{taskDate}</p>
+                        </div>
+                        <div className = "flex flex-col sm:w-fit w-full bg-white rounded-md ring-1 ring-slate-300 p-2">
                             <h2 className = "text-xs font-semibold">Event</h2>
-                            <p className = "text-xs text-gray-500">{taskEvent}</p>
+                            <p id = "title_value" className = "text-xs text-gray-500">{taskEvent}</p>
+                        </div>
+                        <div className = "flex flex-col sm:w-1/3 w-full bg-white rounded-md ring-1 ring-slate-300 p-2">
+                            <h2 className = "text-xs font-semibold">Description</h2>
+                            <input id = "description_input" type = "text" className = "text-xs p-2 rounded-md" placeholder = "Description"/>
+                        </div>
+                        <div className = "flex flex-row items-center gap-1 sm:w-fit w-full bg-white rounded-md ring-1 ring-slate-300 p-2">
+                            <h2 className = "text-xs font-semibold">Priority</h2>
+                            <select id = "priority_select" className="w-full focus:outline-none text-xs p-2 rounded-md">
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option>High</option>
+                            </select>
+                        </div>
+                        <div className = "flex flex-row items-center gap-1 sm:w-fit w-full bg-white rounded-md ring-1 ring-slate-300 p-2">
+                            <h2 className = "text-xs font-semibold">Shared</h2>
+                            <select id = "shared_select" className="w-full focus:outline-none text-xs p-2 rounded-md">
+                                <option>No</option>
+                                <option>Yes</option>
+                            </select>
                         </div>
                         </div>
                         <button onClick = {handleAddTask} className = "bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-md w-full text-sm">Add Task</button>
@@ -284,7 +331,7 @@ const TaskView = () => {
                                             return (
                                                 <div onClick = {handleTaskClick} id = {`task${task.id}`} key={task.id} className={`flex flex-row items-center gap-2 p-2 rounded-md ${selectedTask == task ? 'bg-purple-800': ''} bg-purple-500 hover:bg-purple-400 hover:cursor-pointer active:bg-purple-600 text-white`}>
                                                     <h2 className="text-xs font-semibold">{task.title}</h2>
-                                                    <p className="text-xs">{task.priority}</p>
+                                                    <p className="text-xs">{task.description}</p>
                                                 </div>
                                             )
                                         }
@@ -327,9 +374,6 @@ const TaskView = () => {
                             <p className="text-sm italic text-gray-500">{selectedTask.shared ? 'Yes' : 'No'}</p>
                         </div>
 
-
-                        
-
                         <div className="flex flex-row gap-1 text-sm m-4 items-center w-full">
                         <button className="flex flex-row items-center gap-2 text-sm bg-purple-500 hover:bg-purple-400 w-auto text-white p-2 rounded-md">
                                 Mark as Complete</button>
@@ -341,7 +385,7 @@ const TaskView = () => {
 
                             <span className="border-r border-slate-300 h-4"></span>
 
-                            <button className="flex flex-row items-center gap-2 bg-transparent hover:bg-purple-100 text-purple-500 p-2 rounded-md"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <button onClick = {handleDeleteTask} className="flex flex-row items-center gap-2 bg-transparent hover:bg-purple-100 text-purple-500 p-2 rounded-md"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                             </svg>
                                 Delete</button>
