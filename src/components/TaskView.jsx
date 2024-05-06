@@ -144,6 +144,11 @@ const TaskView = () => {
           date.setHours(time.getHours());
           date.setMinutes(time.getMinutes());
         }
+
+        //check for the word 'today' and set the date to today
+        if (dateString.toLowerCase() === 'today') {
+            date = new Date();
+        }
       
         // If parsing still fails, return the original string
         if (isNaN(date.getTime())) {
@@ -329,7 +334,7 @@ const TaskView = () => {
                                         let dueDate = new Date(task.due); // Parse due date
                                         if (formatDate(dueDate) === day.toDateString()) {
                                             return (
-                                                <div onClick = {handleTaskClick} id = {`task${task.id}`} key={task.id} className={`flex flex-row items-center gap-2 p-2 rounded-md ${selectedTask == task ? 'bg-purple-800': ''} bg-purple-500 hover:bg-purple-400 hover:cursor-pointer active:bg-purple-600 text-white`}>
+                                                <div onClick = {handleTaskClick} id = {`task${task.id}`} key={task.id} className={`flex flex-row items-center gap-2 p-2 rounded-md ${task.priority == "High" && 'bg-gradient-to-r from-red-500 to-red-500'} ${task.priority == "Medium" && 'bg-gradient-to-r from-orange-400 to-orange-400'} ${task.priority == "Low" && 'bg-gradient-to-r from-yellow-500 to-yellow-500'} ${selectedTask == task ? 'bg-purple-800': ''} bg-purple-500 hover:bg-purple-400 hover:cursor-pointer active:bg-purple-600 text-white`}>
                                                     <h2 className="text-xs font-semibold">{task.title}</h2>
                                                     <p className="text-xs">{task.description}</p>
                                                 </div>
