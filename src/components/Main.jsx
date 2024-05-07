@@ -1,3 +1,15 @@
+import React, { useState } from 'react';
+import NavBar from './NavBar';
+import TaskView from './TaskView';
+import ProjectsView from './ProjectsView';
+import ArchivedView from './ArchivedView';
+import SharedView from './SharedView';
+import TimerView from './TimerView';
+import TerminalView from './TerminalView';
+import SettingsView from './SettingsView';
+import KanbanView from './KanbanView';
+
+
 const Main = () => {
     const example_tasks = [
         {
@@ -35,7 +47,8 @@ const Main = () => {
       }
     
       const handleLogout = () => {
-        console.log("Logging out");
+        //set the location to /login
+        window.location.href = '/login';
       }
     
       return (
