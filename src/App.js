@@ -49,9 +49,13 @@ function App() {
     setCurrentTab(tab);
   }
 
+  const handleLogout = () => {
+    console.log("Logging out");
+  }
+
   return (
     <div className="App flex sm:flex-row flex-col h-screen">
-      <NavBar active = {currentTab} handleSetCurrentTab = {handleSetCurrentTab}/>
+      <NavBar handleLogout = {handleLogout} active = {currentTab} handleSetCurrentTab = {handleSetCurrentTab}/>
       {currentTab === 'tasks' && <TaskView tasks={example_tasks} />}
       {currentTab === 'projects' && <ProjectsView projects={[]} />}
       {currentTab === 'archived' && <ArchivedView collection={[]} />}
